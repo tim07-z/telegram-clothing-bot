@@ -3,6 +3,7 @@ import threading
 import os
 import time
 import sys
+import asyncio
 
 app = Flask(__name__)
 
@@ -19,20 +20,22 @@ def run_bot():
     try:
         print("Starting bot...")
         print(f"Current working directory: {os.getcwd()}")
-        print(f"Python path: {sys.path}")
         
         # Проверяем, что файл bot.py существует
         if not os.path.exists('bot.py'):
             print("ERROR: bot.py not found!")
             return
             
-        # Импортируем и запускаем бота
+        # Импортируем бота
         from bot import main as bot_main
         print("Bot imported successfully")
         
-        import asyncio
+        # Создаем новый event loop для этого потока
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        
         print("Starting asyncio event loop...")
-        asyncio.run(bot_main())
+        loop.run_until_complete(bot_main())
         
     except Exception as e:
         print(f"Bot error: {e}")
