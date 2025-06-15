@@ -58,7 +58,27 @@ def run_bot():
         asyncio.set_event_loop(loop)
         
         print("Starting asyncio event loop...")
-        loop.run_until_complete(bot_main())
+        
+        # Запускаем бота без обработки сигналов
+        async def run_bot_safe():
+            try:
+                # Импортируем необходимые модули
+                from aiogram import Bot, Dispatcher
+                from config import TOKEN
+                
+                # Создаем бота и диспетчер
+                bot = Bot(token=TOKEN)
+                dp = Dispatcher()
+                
+                # Запускаем polling без обработки сигналов
+                await dp.start_polling(bot, skip_updates=True)
+                
+            except Exception as e:
+                print(f"Bot polling error: {e}")
+                import traceback
+                traceback.print_exc()
+        
+        loop.run_until_complete(run_bot_safe())
         
     except Exception as e:
         print(f"Bot error: {e}")
