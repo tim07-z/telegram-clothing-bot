@@ -20,5 +20,5 @@ COPY . .
 RUN useradd -m -u 1000 botuser && chown -R botuser:botuser /app
 USER botuser
 
-# Запуск бота
-CMD ["python", "web_server.py"]
+# Запуск через render_server.py
+CMD ["python", "render_server.py"] 
