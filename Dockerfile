@@ -21,4 +21,4 @@ RUN useradd -m -u 1000 botuser && chown -R botuser:botuser /app
 USER botuser
 
 # Запуск бота
-CMD ["python", "bot.py"] 
+CMD ["python", "web_server.py"]
