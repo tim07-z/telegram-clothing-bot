@@ -26,9 +26,32 @@ def run_bot():
             print("ERROR: bot.py not found!")
             return
             
+        print("bot.py found, trying to import...")
+        
+        # Пробуем импортировать модули по отдельности
+        try:
+            import config
+            print("config imported successfully")
+        except Exception as e:
+            print(f"Error importing config: {e}")
+            return
+            
+        try:
+            import json
+            print("json imported successfully")
+        except Exception as e:
+            print(f"Error importing json: {e}")
+            return
+            
         # Импортируем бота
-        from bot import main as bot_main
-        print("Bot imported successfully")
+        try:
+            from bot import main as bot_main
+            print("Bot imported successfully")
+        except Exception as e:
+            print(f"Error importing bot: {e}")
+            import traceback
+            traceback.print_exc()
+            return
         
         # Создаем новый event loop для этого потока
         loop = asyncio.new_event_loop()
@@ -61,4 +84,4 @@ if __name__ == '__main__':
     time.sleep(3)
     
     # Запуск веб-сервера
-    run_web_server()
+    run_web_server() 
